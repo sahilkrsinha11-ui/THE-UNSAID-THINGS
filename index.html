@@ -1,0 +1,422 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Unsent Universe ☾</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,400&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#080612;color:#f8f2ff;font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden}
+#sky{position:fixed;inset:0;z-index:-2;background:radial-gradient(ellipse at 50% 80%,#2b1746,#100b24 55%,#06050d)}
+#stars{position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}
+.screen{display:none;min-height:100svh;padding:35px 22px;align-items:center;justify-content:center;text-align:center}
+.screen.active{display:flex;animation:fade 1s ease}
+.content{width:min(100%,620px);margin:auto}
+.eyebrow{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:#e8d5a6;margin-bottom:25px}
+h1,h2,.serif{font-family:'Cormorant Garamond',serif;font-weight:300}
+h1{font-size:clamp(54px,11vw,86px);line-height:.98}
+h1 em,h2 em{color:#e8d5a6}
+h2{font-size:clamp(40px,9vw,60px);line-height:1.05}
+p{font-size:14px;line-height:2;color:#bcb2d1;font-weight:300}
+.intro{max-width:420px;margin:24px auto 32px}
+.moon{width:75px;height:75px;border-radius:50%;margin:0 auto 30px;background:radial-gradient(circle at 35% 30%,#fff9dd,#e4d19a 60%,#a58cce);box-shadow:0 0 55px #c7a8ff35}
+button{font:inherit;color:inherit;cursor:pointer}
+.primary{padding:14px 23px;background:transparent;border:1px solid #d7c18b70;border-radius:40px;font-size:10px;letter-spacing:1.5px;transition:.3s}
+.primary:hover{background:#fff1c510;border-color:#e8d5a6;transform:translateY(-2px)}
+.universe{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:38px auto}
+.star-card{min-height:145px;border:1px solid #d7c9ff25;border-radius:100px;background:#ffffff05;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:13px;transition:.3s}
+.star-card:hover{transform:translateY(-5px);border-color:#e8d5a6;background:#ffffff0b}
+.star-icon{font-size:26px;color:#e8d5a6;text-shadow:0 0 25px #e8d5a6}
+.star-label{font-size:10px;line-height:1.7;color:#e1d8f1}
+.note{margin:28px auto;padding:clamp(23px,6vw,40px);border:1px solid #d5c39e35;background:#ffffff05;text-align:left;border-radius:5px}
+.note-label{font-size:9px;letter-spacing:3px;color:#e8d5a6;margin-bottom:25px}
+.note p{white-space:pre-line;color:#e0d9ed;line-height:2.1}
+.signature{font-family:'Cormorant Garamond',serif;font-size:26px;font-style:italic;color:#e8d5a6;margin-top:23px}
+.audio{margin:20px auto;padding:17px;border:1px solid #c9b9e72b;border-radius:12px;text-align:left}
+.audio label{display:block;font-size:10px;letter-spacing:1px;color:#e8d5a6;margin-bottom:12px}
+audio{width:100%;height:38px}
+.small{font-size:10px}
+.back{background:none;border:0;padding:17px;color:#b6a9cb;font-size:10px;letter-spacing:1px}
+footer{position:fixed;bottom:12px;left:0;width:100%;text-align:center;font-size:9px;letter-spacing:2px;color:#a89abd50;pointer-events:none}
+@keyframes fade{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:380px){.universe{gap:6px}.star-card{min-height:120px}.star-label{font-size:9px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
+
+.music-subtitle {
+  font-size: 13px;
+  letter-spacing: 1.5px;
+  line-height: 1.8;
+  text-align: center;
+  color: rgba(235, 222, 255, 0.75);
+  margin-top: -8px;
+  margin-bottom: 24px;
+  font-style: italic;
+}
+
+#cosmic-sky {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.cosmic-star {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 6px #fff;
+  animation: twinkle var(--duration) ease-in-out infinite;
+  animation-delay: var(--delay);
+}
+
+@keyframes twinkle {
+  0%, 100% {
+    opacity: 0.2;
+    transform: scale(0.7);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.5);
+  }
+}
+
+.shooting-star {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 180px;
+  height: 2px;
+  border-radius: 50%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    #c9b6ff 35%,
+    #ffffff 80%,
+    transparent
+  );
+  box-shadow: 0 0 8px #d8c5ff;
+  transform-origin: center;
+  animation: shoot 2.5s linear forwards;
+  will-change: transform, opacity;
+}
+
+@keyframes shoot {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) rotate(35deg);
+  }
+
+  8% {
+    opacity: 1;
+  }
+
+  85% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(0, 100vh) rotate(35deg);
+  }
+}
+
+@keyframes shoot {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) rotate(-35deg);
+  }
+
+  10% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-500px, 300px) rotate(-35deg);
+  }
+}
+</style>
+</head>
+<body>
+ <div id="cosmic-sky"></div>   
+<div id="sky"></div>
+<canvas id="stars"></canvas>
+
+<section class="screen active" id="welcome">
+<div class="content">
+<div class="moon"></div>
+<p class="music-prompt" style="font-size: 20px;">A SMALL EFFORT TO MAKE YOU FEEL A LITTLE BETTER:) </p>
+<p class="music-subtitle">Let the universe play a little melody for you.</p>
+<div class="eyebrow">A little universe, just for you</div>
+<h1>The Unsent<br><em>Universe.</em></h1>
+<p class="intro">Some things are difficult to explain in the moment. So I made a little place where words can simply exist, without asking anything in return.</p>
+<button class="primary" onclick="go('home')">ENTER THE UNIVERSE ☾</button>
+</div>
+</section>
+
+<section class="screen" id="home">
+<div class="content">
+<div class="eyebrow">Three little constellations</div>
+<h2>Some things deserve<br><em>a quiet moment.</em></h2>
+<p class="intro">Explore at your own pace. There's no right order, and nothing you have to finish.</p>
+<div class="universe">
+<button class="star-card" onclick="go('peace')"><span class="star-icon">✧</span><span class="star-label">A little<br>peace</span></button>
+<button class="star-card" onclick="go('care')"><span class="star-icon">☾</span><span class="star-label">Something I<br>understand</span></button>
+<button class="star-card" onclick="go('letter')"><span class="star-icon">♡</span><span class="star-label">Words from<br>me</span></button>
+</div>
+<button class="back" onclick="go('welcome')">← BACK TO THE BEGINNING</button>
+</div>
+</section>
+
+<section class="screen" id="peace">
+<div class="content">
+<div class="eyebrow">Constellation 01</div>
+<h2>You can put<br><em>the world down.</em></h2>
+<p class="intro">I know the things have gone wrong, and it shouldn't have turned out this way. You don't have to figure everything out today. You don't have to explain every feeling or find every answer.</p>
+<p class="intro">Some moments can simply be moments. Take a breath, get comfortable, and give yourself permission to have a little peace, even when everything isn't sorted out yet.</p>
+<button class="primary" onclick="go('home')">BACK TO THE STARS ✧</button>
+</div>
+</section>
+
+<section class="screen" id="care">
+<div class="content">
+<div class="eyebrow">Constellation 02</div>
+<h2>Your comfort<br><em>matters.</em></h2>
+<p class="intro">I understand that some things are meant to stay between the people who share them. You deserve to feel comfortable about your own conversations and your own boundaries. But here I did a mistake which cause you this much guilt.</p>
+<p class="intro">I can't decide how a situation feels for you. But I can listen, respect what matters to you, and be more thoughtful about how I handle things.</p>
+<p class="intro">You don't need to make your feelings smaller just to make a situation easier for someone else.</p>
+<button class="primary" onclick="go('home')">BACK TO THE STARS ✧</button>
+</div>
+</section>
+
+<section class="screen" id="letter">
+<div class="content">
+<div class="eyebrow">Constellation 03 · An honest note</div>
+<h2>A few words<br><em>from me.</em></h2>
+<div class="note">
+<div class="note-label">A NOTE FROM SWAPNIL</div>
+<p>Hey, Aastha, Swapnil here!.
+
+I'm sorry about about the discomfort and the situation caused you the day before yesterday.
+
+I understand that you wanted our conversations to remain private, and it should be private. No one has the right to know about us. I should be mindful of that, and I don't want you to feel like your concerns are being brushed aside just because I didn't mean for things to turn out this way.
+
+I'm not writing this to explain everything again or to ask you to respond. I just wanted to acknowledge how you felt and say that your comfort matters to me. I had no idea that in future yeh sab hojayega. But from now mai dhyaan rakhunga about your privacy and safety.
+
+You can take your time. You don't owe me an immediate conversation or a reply to this little note.
+
+I genuinely hope you're doing alright. Take care of yourself.
+
+~Swapnil</p>
+<div class="signature">— Swapnil ♡</div>
+</div>
+<div class="audio">
+<label for="voice">A LITTLE EXPLANATION AND APOLOGY, HOPE YOU'LL LISTEN♡</label>
+<audio id="voice" controls preload="none">
+  <source src="Apology letter from swapnil.mpeg" type="audio/mpeg">
+  Your browser does not support audio playback.
+</audio>
+<p class="small">Listen whenever you feel like it. The written letter is here too.</p>
+</div>
+<button class="primary" onclick="go('ending')">ONE LAST LITTLE THING ☾</button><br>
+<button class="back" onclick="go('home')">← BACK TO THE STARS</button>
+</div>
+</section>
+
+<section class="screen" id="ending">
+<div class="content">
+<div class="moon"></div>
+<div class="eyebrow">Before you go</div>
+<h2>No reply needed.<br><em>Just take care.</em></h2>
+<p class="intro">This little universe will ask nothing more of you. I just hope it gave you a quiet moment to yourself.</p>
+<p class="serif" style="font-size:24px;color:#e8d5a6">The stars will be here. ✧</p><br>
+<button class="primary" onclick="go('welcome')">RETURN TO THE STARS</button>
+</div>
+</section>
+
+<footer>MADE WITH CARE · NOT WITH EXPECTATIONS</footer>
+
+<script>
+oldSong.volume = 0.15;
+const bgMusic = document.getElementById('bgMusic');
+bgMusic.volume = 0.4;
+
+function go(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+
+  if(id === 'home'){
+    const music = document.getElementById('bgMusic');
+    music.play().catch(err => console.log(err));
+  }
+}
+const canvas=document.getElementById('stars');
+const ctx=canvas.getContext('2d');
+let stars=[];
+function resize(){
+canvas.width=innerWidth*devicePixelRatio;
+canvas.height=innerHeight*devicePixelRatio;
+canvas.style.width=innerWidth+'px';
+canvas.style.height=innerHeight+'px';
+ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);
+stars=Array.from({length:145},()=>({x:Math.random()*innerWidth,y:Math.random()*innerHeight,r:Math.random()*1.4+.2,a:Math.random()*6.28}));
+}
+function draw(){
+ctx.clearRect(0,0,innerWidth,innerHeight);
+stars.forEach(s=>{
+const opacity=.2+(Math.sin(s.a)+1)*.35;
+ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+ctx.fillStyle=`rgba(235,220,255,${opacity})`;ctx.fill();s.a+=.012;
+});
+requestAnimationFrame(draw);
+}
+window.addEventListener('resize',resize);
+resize();draw();
+</script>
+<audio id="bgMusic" loop>
+  <source src="Arz Kiya Hai.mp3" type="audio/mpeg">
+</audio>
+
+<audio id="newSong" loop preload="auto">
+  <source src="Bhardo Jholi Meri.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+(() => {
+  const sky = document.getElementById('cosmic-sky');
+  if (!sky || sky.dataset.ready) return;
+  sky.dataset.ready = 'true';
+
+  // Create 150 twinkling stars
+  for (let i = 0; i < 150; i++) {
+    const star = document.createElement('span');
+    star.className = 'cosmic-star';
+
+    star.style.left = Math.random() * 100 + '%';
+    star.style.top = Math.random() * 100 + '%';
+    star.style.setProperty(
+      '--duration',
+      (2 + Math.random() * 4) + 's'
+    );
+    star.style.setProperty(
+      '--delay',
+      (-Math.random() * 5) + 's'
+    );
+
+    const size = 1 + Math.random() * 2;
+    star.style.width = size + 'px';
+    star.style.height = size + 'px';
+
+    sky.appendChild(star);
+  }
+
+  // Shooting stars appear occasionally
+  function createShootingStar() {
+    const star = document.createElement('span');
+    star.className = 'shooting-star';
+
+    star.style.left = '-90px';
+star.style.top = '-90px';
+
+    sky.appendChild(star);
+
+    setTimeout(() => star.remove(), 1400);
+  }
+
+  function scheduleShootingStar() {
+    setTimeout(() => {
+      createShootingStar();
+      scheduleShootingStar();
+    }, 3500 + Math.random() * 5000);
+  }
+
+  scheduleShootingStar();
+})();
+</script>
+
+
+<script>
+(() => {
+  const voice = document.getElementById('voice');
+  const oldSong = document.getElementById('bgMusic');
+  const newSong = document.getElementById('newSong');
+
+  oldSong.volume = 0.10;
+
+  if (!voice || !oldSong || !newSong) return;
+
+  voice.volume = 1.0;
+
+  let delayTimer;
+  let fadeTimer;
+
+  voice.addEventListener('play', () => {
+    clearTimeout(delayTimer);
+    clearInterval(fadeTimer);
+
+    // Stop Arz Kiya Hai immediately
+    oldSong.pause();
+    oldSong.currentTime = 0;
+
+    // Prepare Bhardo Jholi Meri
+    newSong.pause();
+    newSong.volume = 0;
+  });
+
+  voice.addEventListener('playing', () => {
+    clearTimeout(delayTimer);
+    clearInterval(fadeTimer);
+
+    delayTimer = setTimeout(() => {
+      newSong.currentTime = 30;
+      newSong.volume = 0;
+
+      newSong.play().then(() => {
+        let volume = 0;
+
+        fadeTimer = setInterval(() => {
+          volume = Math.min(volume + 0.01, 0.05);
+          newSong.volume = volume;
+
+          if (volume >= 0.12) {
+            clearInterval(fadeTimer);
+          }
+        }, 200);
+      }).catch(console.error);
+    }, 3500);
+  });
+
+  voice.addEventListener('pause', () => {
+    clearTimeout(delayTimer);
+    clearInterval(fadeTimer);
+    newSong.pause();
+  }); 
+  voice.addEventListener('ended', () => {
+  clearTimeout(delayTimer);
+  clearInterval(fadeTimer);
+
+  fadeTimer = setInterval(() => {
+    newSong.volume = Math.max(newSong.volume - 0.002, 0);
+
+    if (newSong.volume <= 0) {
+      clearInterval(fadeTimer);
+      newSong.pause();
+      newSong.currentTime = 0;
+    }
+  }, 100);
+});
+})();
+</script>
+
+
+</script>
+</body>
+</html>
